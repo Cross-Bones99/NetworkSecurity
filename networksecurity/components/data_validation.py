@@ -25,6 +25,17 @@ class DataValidation:
             return pd.read_csv(file_path)
         except Exception as e:
             raise NetworkSecurityException(e,sys)
+        
+    def validate_number_of_columns(self,dataframe:pd.DataFrame)->bool:
+        try:
+            number_of_columns=len(self._schema_config)
+            logging.info(f"Required number of columns:{number_of_columns}")
+            logging.info(f"Data frame has columns:{len(dataframe.columns)}")
+            if len(dataframe.columns)==number_of_columns:
+                return True
+            return False
+        except Exception as e:
+            raise NetworkSecurityException(e,sys)    
 
 
     def detect_dataset_drift(self,base_df,current_df,threshold=0.05)->bool:
